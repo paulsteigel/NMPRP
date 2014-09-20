@@ -1,0 +1,8 @@
+Option Explicit
+' Modify this line when a new version is comming
+Const AppVersion = 2
+
+Function GetAppVersion() As Long
+    ' This is to get current version of the application
+    GetAppVersion = AppVersion
+End Function
