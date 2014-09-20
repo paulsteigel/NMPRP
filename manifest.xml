@@ -2,8 +2,13 @@
     <manifest description="Update manifest and associated classes and modules" contact="ngocdd@sfdp.net">
         <gists>			
             <item1 gistid="3414216" version="2" filename="" module="" type="version" />
-            <item2 gistid="3414216" version="" filename="mdl_Functions" module="mdl_Functions" type="module" />
-            <item3 gistid="3414216" version="" filename="mdl_Const" module="mdl_Const" type="module" />
+			<item2 gistid="3414216" version="" filename="mdl_App" module="mdl_App" type="module" />
+			<item3 gistid="3414216" version="" filename="mdl_Functions" module="mdl_Functions" type="module" />
+            <item4 gistid="3414216" version="" filename="mdl_Const" module="mdl_Const" type="module" />
+			<item5 gistid="3414216" version="" filename="mdl_Main" module="mdl_Functions" type="module" />
+            <item6 gistid="3414216" version="" filename="mdl_MSG" module="mdl_Const" type="module" />
+			<item7 gistid="3414216" version="" filename="mdl_Mis" module="mdl_Functions" type="module" />
+            <item8 gistid="3414216" version="" filename="mdl_Style" module="mdl_Const" type="module" />
         </gists>
     </manifest>
 </gistAutoUpdate>
