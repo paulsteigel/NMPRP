@@ -378,10 +378,6 @@ Function HasName(InCell As Range, CheckName As String) As Boolean
 errHandler:
 End Function
 
-Sub ShowStatus(msgStatus As String)
-    Application.StatusBar = msgStatus
-End Sub
-
 Sub CreateSample()
     CreateSampleX
 End Sub
