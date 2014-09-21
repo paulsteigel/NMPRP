@@ -378,19 +378,6 @@ Function HasName(InCell As Range, CheckName As String) As Boolean
 errHandler:
 End Function
 
-Sub ShowOff(Optional TurnEventOn As Boolean = False)
-    ' Turn off everything, toggle
-    ShowStatus ""
-    Application.ScreenUpdating = TurnEventOn
-    Application.EnableEvents = TurnEventOn
-    Application.CutCopyMode = False
-    If TurnEventOn Then
-        Application.Calculation = xlCalculationAutomatic
-    Else
-        Application.Calculation = xlCalculationManual
-    End If
-End Sub
-
 Sub ShowStatus(msgStatus As String)
     Application.StatusBar = msgStatus
 End Sub
