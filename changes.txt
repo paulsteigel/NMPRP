@@ -1,0 +1,3 @@
+GHI NHẬN THAY ĐỔI...
+Đây là danh sách ghi lại những lần cập nhập công cụ của các bạn trong vùng dự án. Hiện tại, tôi chưa biết cách đưa cập nhập dưới dạng tập tin nên mỗi lần cập nhập mới, hệ thống sẽ ghi lại dưới dạng bình luận trong đó có các thông số về máy tính của bạn, phiên bản, địa chỉ IP. Việc làm này giúp tôi theo dõi mức độ sử dụng phần mềm của các bạn. Xin cảm phiền.
+Nhóm phát triển!
