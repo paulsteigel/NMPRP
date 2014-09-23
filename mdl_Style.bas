@@ -24,6 +24,7 @@ Private Const wdPreferredWidthPoints = 3
 Private Const wdRowHeightAtLeast = 1
 Private Const wdReplaceAll = 2
 Private Const wdFindContinue = 1
+Private Const wdFindStop = 0
 
 Private Const wdOutlineLevelBodyText = 10
 Private Const wdListNumberStyleBullet = &H17
@@ -442,14 +443,14 @@ Sub SetSectionLayout(myWordDoc As Object, Optional SetLandScape As Boolean = Tru
 End Sub
 
 Sub AddTable(WrdDoc As Object, tblRange As Range)
-    Dim tbl As Object
+    Dim Tbl As Object
     Dim iCol As Long, iRow As Long, i As Long, j As Long
     iRow = tblRange.Rows.Count
     iCol = tblRange.Columns.Count
     
-    Set tbl = WrdDoc.Tables.Add(WrdDoc.Paragraphs.Last.Range, iRow, iCol)
+    Set Tbl = WrdDoc.Tables.Add(WrdDoc.Paragraphs.Last.Range, iRow, iCol)
     ' Now set table with and column width
-    With tbl
+    With Tbl
         .PreferredWidthType = wdPreferredWidthPercent
         .PreferredWidth = 100
         .Rows.HeightRule = wdRowHeightAtLeast
@@ -466,15 +467,15 @@ Sub AddTable(WrdDoc As Object, tblRange As Range)
         Err.Clear
         For i = 1 To tblRange.Rows.Count
             For j = 1 To tblRange.Columns.Count
-                .cell(i, j) = Trim(tblRange.Cells(i, j))
+                .Cell(i, j) = Trim(tblRange.Cells(i, j))
                 ' alignment
                 Select Case tblRange.Cells(i, j).HorizontalAlignment
                 Case xlLeft:
-                    .cell(i, j).Range.ParagraphFormat.Alignment = wdAlignParagraphLeft
+                    .Cell(i, j).Range.ParagraphFormat.Alignment = wdAlignParagraphLeft
                 Case xlRight
-                    .cell(i, j).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
+                    .Cell(i, j).Range.ParagraphFormat.Alignment = wdAlignParagraphRight
                 Case Else
-                    .cell(i, j).Range.ParagraphFormat.Alignment = wdAlignParagraphCenter
+                    .Cell(i, j).Range.ParagraphFormat.Alignment = wdAlignParagraphCenter
                 End Select
             Next
         Next
@@ -569,7 +570,9 @@ Sub InsertTable(DocObj As Object, RangeName As String)
     With DocObj
         CopyRange.Copy
         prCount = .Paragraphs.Count
-        .Paragraphs(prCount).Range.PasteExcelTable False, True, True
+        '.Paragraphs(prCount).Range.PasteExcelTable False, True, True
+        .Paragraphs(prCount).Range.PasteExcelTable False, False, False
+        
         Set tmpObj = .Tables(.Tables.Count)
         With tmpObj
             .PreferredWidthType = wdPreferredWidthPercent
@@ -622,18 +625,17 @@ Sub ReformatWordTable(WrdDoc As Object, Optional Msg1 As String, Optional Msg2 A
         SetHeaderRow tmpObj
         
         ' Remove trailing space
-        For i = 1 To 10
-            ShowStatus Msg2 & tmpObj.ID
-            With tmpObj.Range.Find
-                .ClearFormatting
-                .Replacement.ClearFormatting
-                .Text = "  "
-                .Replacement.Text = " "
-                .Forward = True
-                .Wrap = wdFindContinue
-                .Execute Replace:=wdReplaceAll
-            End With
-        Next
+        ShowStatus Msg2 & tmpObj.ID
+        With tmpObj.Range.Find
+            .ClearFormatting
+            .Replacement.ClearFormatting
+            .Text = "([ ])[ ]{1,}"
+            .Replacement.Text = "\1"
+            .MatchWildcards = True
+            .Forward = True
+            .Wrap = wdFindContinue
+            .Execute Replace:=wdReplaceAll
+        End With
     Next
     ShowStatus MsgFin
     Set tmpObj = Nothing
@@ -649,7 +651,49 @@ Sub SetHeaderRow(myTable As Object)
     Exit Sub
 errHandler:
     If Err.Number <> 0 Then Err.Clear
-    Set HeaderRange = myTable.cell(1, 1).Range
-    HeaderRange.SetRange Start:=myTable.cell(1, 1).Range.Start, End:=myTable.cell(1, 1).Range.Start
+    Set HeaderRange = myTable.Cell(1, 1).Range
+    HeaderRange.SetRange Start:=myTable.Cell(1, 1).Range.Start, End:=myTable.Cell(1, 1).Range.Start
     Resume Next
+End Sub
+
+Private Sub FormatTable(wrDoc As Object, Tbl As Object, Col2Format As Long, StartRow As Long)
+'
+' FormatTable Macro, will do the setting up of table and then get it updated quickly..
+' The key is number of column to be formatted and starting row...
+'
+    Dim i As Long, ColNums As Long, myCells As Object
+    ' With table format
+    With Tbl
+        .Rows.LeftIndent = 0
+        .PreferredWidthType = wdPreferredWidthPercent
+        .PreferredWidth = 100
+        .Rows.HeightRule = wdRowHeightAtLeast
+        .Rows.Height = 0
+        With .Range.ParagraphFormat
+            .SpaceBefore = 0
+            .SpaceBeforeAuto = False
+            .SpaceAfter = 0
+            .SpaceAfterAuto = False
+            .LineSpacingRule = wdLineSpaceSingle
+            .FirstLineIndent = 0
+            .CharacterUnitFirstLineIndent = 0
+            .LineUnitBefore = 0
+            .LineUnitAfter = 0
+        End With
+        
+        ' Remove trailing space
+        ColNums = .Columns.Count
+        Set myCells = wrDoc.Range(.Cell(StartRow + 1, ColNums - Col2Format + 1).Range.Start, .Cell(.Rows.Count, ColNums).Range.End)
+    End With
+    ' Remove trailing space
+    With myCells.Find
+        .ClearFormatting
+        .Replacement.ClearFormatting
+        .Text = " "
+        .Replacement.Text = ""
+        .Forward = False
+        .Wrap = wdFindStop 'wdFindContinue
+        .Execute Replace:=wdReplaceAll
+    End With
+    Set myCells = Nothing
 End Sub
