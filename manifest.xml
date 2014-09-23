@@ -1,7 +1,7 @@
 <gistAutoUpdate info="this is a manifest for Autoupdating VBA code distribution">
     <manifest description="Update manifest and associated classes and modules" contact="ngocdd@sfdp.net">
         <gists>			
-		<item1 gistid="3414216" version="3" filename="" module="" type="version" />
+		<item1 gistid="3414216" version="4" filename="" module="" type="version" />
 		<item2 gistid="3414216" version="" filename="mdl_Global.bas" module="mdl_Global" type="module" />
 		<item3 gistid="3414216" version="" filename="mdl_App.bas" module="mdl_App" type="module" />
 		<item4 gistid="3414216" version="" filename="mdl_Functions.bas" module="mdl_Functions" type="module" />
