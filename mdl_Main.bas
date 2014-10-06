@@ -22,8 +22,9 @@ Sub GenerateDocs()
     ShowOff False
     
     Dim myWordApp As Object, myWordDoc As Object, LocalSetting As String, RplStr As String, DocStr As String
-    LocalSetting = ","
-    If InStr(Format("12345", "#,##0"), ",") > 0 Then LocalSetting = "."
+    
+    LocalSetting = AppDecimal
+    
     
     Set myWordDoc = CreateWordDocument(myWordApp)
     myWordApp.Visible = False
@@ -659,5 +660,3 @@ Private Sub GetFormsData(ColId As Long)
     Set CellStart = Nothing
     ShowOff True
 End Sub
-
-
