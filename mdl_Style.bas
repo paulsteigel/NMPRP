@@ -629,7 +629,7 @@ Sub ReformatWordTable(WrdDoc As Object, Optional Msg1 As String, Optional Msg2 A
         With tmpObj.Range.Find
             .ClearFormatting
             .Replacement.ClearFormatting
-            .Text = "([ ])[ ]{1" & ListSeparator & "}"
+            .Text = "([ ])[ ]{1,}"
             .Replacement.Text = "\1"
             .MatchWildcards = True
             .Forward = True
