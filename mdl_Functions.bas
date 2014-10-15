@@ -109,8 +109,3 @@ Property Get AppDecimal() As String
     ' return application locale
     If InStr(Format("12345", "#,##0"), ",") > 0 Then AppLocale.DecimalSeparator = "."
 End Property
-
-Property Get ListSeparator() As String
-    ' return application locale
-    If Application.version > 14 Then ListSeparator = ";" Else ListSeparator = ","
-End Property
