@@ -626,10 +626,15 @@ Sub ReformatWordTable(WrdDoc As Object, Optional Msg1 As String, Optional Msg2 A
         
         ' Remove trailing space
         ShowStatus Msg2 & tmpObj.ID
+        
+        On Error GoTo ErrPattern
+        Dim Pattern As String
+        Pattern = ","
+        
         With tmpObj.Range.Find
             .ClearFormatting
             .Replacement.ClearFormatting
-            .Text = "([ ])[ ]{1,}"
+            .Text = "([ ])[ ]{1" & Pattern & "}"
             .Replacement.Text = "\1"
             .MatchWildcards = True
             .Forward = True
@@ -639,6 +644,12 @@ Sub ReformatWordTable(WrdDoc As Object, Optional Msg1 As String, Optional Msg2 A
     Next
     ShowStatus MsgFin
     Set tmpObj = Nothing
+    Exit Sub
+    
+ErrPattern:
+    Err.Clear
+    Pattern = ";"
+    Resume 0
 End Sub
 
 Sub SetHeaderRow(myTable As Object)
